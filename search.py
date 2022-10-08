@@ -62,7 +62,7 @@ class GetInformation:
         'currency': 'USD'
     }
 
-    def __init__(self, type_sort, command, date_time, landmark_ids=None):
+    def __init__(self, type_sort: str, command: str, date_time, landmark_ids=None):
         """
         Функция принимает тип_сортировки, команду, дату и время и ориентир в городе.
 
@@ -77,11 +77,12 @@ class GetInformation:
         :param date_time: Дата и время начала операции.
         :param landmark_ids: Список идентификаторов ориентиров для сортировки результатов.
         """
-        self.__querystring['sortOrder'] = type_sort
-        self.__date_log = date_time
-        self.__command = command
+        self.__querystring['sortOrder']: str = type_sort
+        self.__date_log: str = date_time
+        self.__command: str = command
+        self.__query: str = ''
         if landmark_ids is not None:
-            self.__querystring['landmarkIds'] = landmark_ids
+            self.__querystring['landmarkIds']: str = landmark_ids
 
     def get_city_id(self, message: Message):
         """
@@ -96,10 +97,10 @@ class GetInformation:
         :type message: Message
         """
         if check_message(message):
-            __query: str = message.text.strip(self.__symbol)
-            if not eng_dict.check(__query):
-                __query: str = translate(__query)
-            querystring: Dict = {'query': __query, 'locale': 'en_US', 'currency': 'USD'}
+            self.__query: str = message.text.strip(self.__symbol)
+            if not eng_dict.check(self.__query):
+                self.__query: str = translate(self.__query)
+            querystring: Dict = {'query': self.__query, 'locale': 'en_US', 'currency': 'USD'}
             response: Dict = requests.request('GET', self.__url_city, headers=self.__headers, params=querystring).json()
             data: List = response.get('suggestions')
             locality_info: List = data[0].get('entities')
@@ -115,7 +116,7 @@ class GetInformation:
             else:
                 bot.send_message(
                     message.from_user.id,
-                    'Я не нашел город {}\nПопробуй еще раз'.format(__query),
+                    'Я не нашел город {}\nПопробуй еще раз'.format(self.__query),
                     reply_markup=keys_space
                 )
                 bot.register_next_step_handler(message, self.get_numbers_res)
@@ -210,7 +211,7 @@ class GetInformation:
                 bot.send_message(
                     message.from_user.id,
                     'Теперь дата выезда\nПример: {date}'.format(date='{day}.{month}.{year}'.format(
-                        day=int(day) + 10,
+                        day=day,
                         month=month,
                         year=year
                     ))
@@ -288,43 +289,70 @@ class GetInformation:
                 params=self.__querystring
             )
             data: List = response.json()['data']['body']['searchResults']['results']
-            bot.send_message(message.chat.id, 'Вот что я нашел:', reply_markup=keys_menu)
-            for hotel in data:
-                name: str = hotel.get('name')
-                url: str = self.__url_hotel.format(hotel.get('id'))
-                add_dict: Dict = hotel.get('address')
-                address = ' '.join((
-                    add_dict.get('streetAddress'),
-                    add_dict.get('locality'),
-                    add_dict.get('postalCode'),
-                    add_dict.get('region'),
-                    add_dict.get('countryName')
-                ))
-                landmarks: Dict = hotel.get('landmarks')[0]
-                to_centre: str = ' - '.join((landmarks.get('label'), landmarks.get('distance')))
-                price_info: Dict = hotel.get('ratePlan').get('price')
-                price: str = ' - '.join((price_info.get('info'), price_info.get('current'))).capitalize()
-                total_price: str = price_info.get('fullyBundledPricePerStay').replace('&nbsp;', ' ').capitalize()
-                querystring: Dict = {"id": str(hotel.get('id'))}
-                result: List = [name, url, address, to_centre, price, total_price]
-                info: str = '\n'.join(result)
-                add_search(
-                    chat_id=str(message.chat.id),
-                    date_input=self.__date_log,
-                    commands=self.__command,
-                    search=info
-                )
-                bot.send_message(message.chat.id, info)
-                if num_photo:
-                    response: Dict = requests.request(
-                        'GET', self.__url_photo, headers=self.__headers, params=querystring
-                    ).json()
-                    photos: List = response['hotelImages']
-                    for score in range(num_photo):
-                        url_photo: str = photos[score].get('baseUrl')
-                        size: str = photos[score].get('sizes')[2].get('suffix')
-                        photo: str = url_photo.format(size=size)
-                        bot.send_photo(message.chat.id, requests.get(photo).content)
+            if data:
+                bot.send_message(message.chat.id, 'Вот что я нашел:', reply_markup=keys_menu)
+                days = (
+                    date.fromisoformat(
+                        self.__querystring['checkOut']
+                    ) - date.fromisoformat(
+                        self.__querystring['checkIn']
+                    )).days
+                if len(data) < int(self.__querystring['pageSize']):
+                    bot.send_message(message.chat.id, 'Но к сожалению подходящих отелей только {numbers}'.format(
+                        numbers=len(data)
+                    ))
+                for hotel in data:
+                    if hotel.get('ratePlan') is not None:
+                        name: str = hotel.get('name')
+                        url: str = self.__url_hotel.format(hotel.get('id'))
+                        add_dict: Dict = hotel.get('address')
+                        address = ' '.join((
+                            add_dict.get('streetAddress', ' '),
+                            add_dict.get('locality', ' '),
+                            add_dict.get('postalCode', ' '),
+                            add_dict.get('region', ' '),
+                            add_dict.get('countryName', ' ')
+                        ))
+                        landmarks: Dict = hotel.get('landmarks')[0]
+                        to_centre: str = ' - '.join((landmarks.get('label'), landmarks.get('distance')))
+                        price_info: Dict = hotel.get('ratePlan', ' ').get('price')
+                        price: str = ' - '.join((
+                            price_info.get('info', 'Nightly price per room'),
+                            price_info.get('current')
+                        )).capitalize()
+                        total_price: str = price_info.get(
+                            'fullyBundledPricePerStay',
+                            'Total $ {total_price}&nbsp;for {day} nights'.format(
+                                total_price=int(price_info.get('exactCurrent')) * days,
+                                day=days
+                            )
+                        ).replace('&nbsp;', ' ').capitalize()
+                        querystring: Dict = {"id": str(hotel.get('id'))}
+                        result: List = [name, url, address, to_centre, price, total_price]
+                        info: str = '\n'.join(result)
+                        add_search(
+                            chat_id=str(message.chat.id),
+                            date_input=self.__date_log,
+                            commands=self.__command,
+                            search=info
+                        )
+                        bot.send_message(message.chat.id, info)
+                        if num_photo:
+                            response: Dict = requests.request(
+                                'GET', self.__url_photo, headers=self.__headers, params=querystring
+                            ).json()
+                            photos: List = response['hotelImages']
+                            for score in range(num_photo):
+                                url_photo: str = photos[score].get('baseUrl')
+                                size: str = photos[score].get('sizes')[2].get('suffix')
+                                photo: str = url_photo.format(size=size)
+                                bot.send_photo(message.chat.id, requests.get(photo).content)
+            else:
+                bot.send_message(
+                    message.chat.id,
+                    'К сожалению мне не получилось найти результаты по городу{}'.format(
+                        self.__query
+                    ))
 
 
 @bot.message_handler(commands=['low_price'])

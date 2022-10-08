@@ -23,9 +23,31 @@
                     "Red Roof Inn Cincinnati Airport\u2013Florence/ Erlanger\nhttps://www.hotels.com/ho109113\n599 Donaldson Highway Erlanger 41018 KY United States\nCity center - 1.2 miles\nNightly price per room - $70\nTotal $786 for 10 nights",
                     "Econo Lodge Erlanger\nhttps://www.hotels.com/ho132455\n633 Donaldson Hwy Erlanger 41018 KY United States\nCity center - 1.3 miles\nNightly price per room - $75\nTotal $841 for 10 nights"
                 ]
+            },
+            "08.10.2022 - 18:12:28": {
+                "commands": "/low_price",
+                "results": [
+                    "ibis budget Brussels South Ruisbroek\nhttps://www.hotels.com/ho435129\nVorstsesteenweg 100 Sint-Pieters-Leeuw 1601  Belgium\nCity center - 4.4 miles\nNightly price per room -  - $45\nTotal $ -1496 for -34 nights",
+                    "ibis budget Brussels Airport\nhttps://www.hotels.com/ho383181\nBessenveldstraat Machelen 1831  Belgium\nCity center - 4.5 miles\nNightly price per room -  - $47\nTotal $ -1598 for -34 nights",
+                    "Getaway Studios Brussels Airport\nhttps://www.hotels.com/ho702994\nHector Henneaulaan 101 Zaventem 1930 Vlaams-Brabant Belgium\nCity center - 5.5 miles\nNightly price per room -  - $50\nTotal $ -1666 for -34 nights",
+                    "Value Stay Brussels Expo Hotel\nhttps://www.hotels.com/ho113653\nLuitberg 1 Grimbergen 1853  Belgium\nCity center - 4.0 miles\nNightly price per room -  - $54\nTotal $ -1836 for -34 nights",
+                    "Budget Flats Brussels\nhttps://www.hotels.com/ho376245\nMaria Groeninckx De Maylaan 50 Brussels 1070  Belgium\nCity center - 2.5 miles\nNightly price per room -  - $54\nTotal $ -1836 for -34 nights",
+                    "ibis Brussels Airport\nhttps://www.hotels.com/ho181104\nBessenveldstraat 17 Machelen 1831  Belgium\nCity center - 4.4 miles\nNightly price per room -  - $56\nTotal $ -1904 for -34 nights"
+                ]
+            },
+            "08.10.2022 - 18:15:27": {
+                "commands": "/low_price",
+                "results": [
+                    "Greentree Inn Beijing Chaoyang Shilihe Antique Cit\nhttps://www.hotels.com/ho620232160\nNo. 8 Jiaju Avenue Beijing 100122  China\nCity center - 4.7 miles\nNightly price per room - $28\nTotal $677 for 21 nights",
+                    "Imperial Courtyard Hotel\nhttps://www.hotels.com/ho373799\nNo.16 Huayuandongxiang Andingmen Beijing 100009 Beijing China\nCity center - 2.9 miles\nNightly price per room - $32\nTotal $774 for 21 nights",
+                    "Greentree Inn Beijing Houhai Express Hotel\nhttps://www.hotels.com/ho633760640\nNo.41 Dianmen East Street, Dongcheng Beijing 100010 Hebei China\nCity center - 2.2 miles\nNightly price per room - $32\nTotal $794 for 21 nights",
+                    "GreenTree Inn Beijing Chaoyang District Maquanying Subway Station Express Hotel\nhttps://www.hotels.com/ho1139022688\nSouthwest Commercial Building Beijing  Beijing China\nCity center - 11 miles\nNightly price per room - $37\nTotal $912 for 21 nights",
+                    "GreenTree Inn Beijing Guangmingqiao Express Apartment Hotel\nhttps://www.hotels.com/ho352817\n725 Jinsong Qiqu, Panjiayuan Beijing 100021 Beijing China\nCity center - 3.4 miles\nNightly price per room - $42\nTotal $1,030 for 21 nights"
+                ]
             }
         }
     },
     "5531909614": {},
-    "288373328": {}
+    "288373328": {},
+    "330690997": {}
 }
