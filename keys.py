@@ -29,5 +29,5 @@ keys_menu.row(hello_world)
 keys_answer: ReplyKeyboardMarkup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
 keys_answer.row(yes, no)
 
-# Пустая клавиатура
+# Удаляем все кнопки
 keys_space = ReplyKeyboardRemove()

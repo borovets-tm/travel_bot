@@ -8,7 +8,7 @@ from processing import bot
 from history import add_search
 from keys import keys_answer, keys_menu, keys_space
 from telebot.types import Message
-from typing import Dict, List, Callable, Tuple, Optional, Union
+from typing import Dict, List, Callable, Tuple, Optional
 
 # Список команд, которые может обрабатывать бот.
 commands = ['help', 'low_price', 'high_price', 'best_deal', 'start', 'hello_world', 'history']
