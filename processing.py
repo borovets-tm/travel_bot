@@ -60,9 +60,9 @@ def hello_user(message: Message) -> None:
         send_hello(message, data[chat_id].get('name'))
     else:
         bot.send_message(message.from_user.id, 'Давай познакомимся! Напиши мне свое имя?')
-        bot.register_next_step_handler(message, get_name)
+        bot.register_next_step_handler(message, set_name)
 
-def get_name(message: Message) -> None:
+def set_name(message: Message) -> None:
     """
     Функция получает имя пользователя и сохраняет его в словаре данных.
 
