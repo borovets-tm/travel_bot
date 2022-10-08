@@ -1,4 +1,4 @@
-<p style="text-align: center;"><img src="C:\Users\t.m.borovets\Downloads\Travel_suitcase-512.webp" width="200" /></p>
+<p style="text-align: center;"><img src=logo.webp width="200" /></p>
 
 <head> 
     <h2 style="text-align: center;">Документация по Telegram Travel боту</h2>
