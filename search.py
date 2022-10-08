@@ -8,7 +8,7 @@ from processing import bot
 from history import add_search
 from keys import keys_answer, keys_menu, keys_space
 from telebot.types import Message
-from typing import Dict, List, Callable, Tuple
+from typing import Dict, List, Callable, Tuple, Optional, Union
 
 # Список команд, которые может обрабатывать бот.
 commands = ['help', 'low_price', 'high_price', 'best_deal', 'start', 'hello_world', 'history']
@@ -132,8 +132,12 @@ class GetInformation:
         """
         if check_message(message):
             self.__querystring['pageSize']: str = message.text.strip(self.__symbol)
-            if self.__querystring['pageSize'].isdigit() and 1 < int(self.__querystring['pageSize']) < 26:
-                bot.send_message(message.from_user.id, 'Когда заезжаем?\nПример: 07.10.2022', reply_markup=keys_space)
+            if self.__querystring['pageSize'].isdigit() and 0 < int(self.__querystring['pageSize']) < 26:
+                bot.send_message(
+                    message.from_user.id,
+                    'Когда заезжаем?\nПример: {date}'.format(date=datetime.today().strftime('%d.%m.%Y')),
+                    reply_markup=keys_space
+                )
                 bot.register_next_step_handler(message, self.get_date_in)
             else:
                 bot.send_message(
@@ -142,7 +146,7 @@ class GetInformation:
                 )
                 bot.register_next_step_handler(message, self.get_numbers_res)
 
-    def check_date(self, message: Message, method: Callable) -> Tuple:
+    def check_date(self, message: Message, method: Callable, date_control: date) -> Optional[Tuple]:
         """
         Метод принимает сообщение и метод в качестве аргументов и возвращает кортеж из трех строк, если дата введена
         корректно или снова вызывает метод.
@@ -151,20 +155,38 @@ class GetInformation:
         :type message: Message
         :param method: Callable — метод, который будет вызван, если дата неверна.
         :type method: Callable
+        :param date_control: если вызывается метод get_date_out, то передается дата заезда, иначе значение отсутствует.
+        :type date_control: date
         :return: Кортеж из трех строк.
         """
+        error_mes = ''
         try:
             day, month, year = (int(num) for num in message.text.strip(self.__symbol).split('.'))
             date(year, month, day)
+            if date(year, month, day) < date_control:
+                raise TypeError
             if month < 10:
                 month = '0' + str(month)
             if day < 10:
                 day = '0' + str(day)
             return str(day), str(month), str(year)
         except ValueError:
-            bot.send_message(message.chat.id, 'Некорректная дата')
-            bot.send_message(message.from_user.id, 'Введите корректную дату\nПример: 12.10.2022')
-            bot.register_next_step_handler(message, method)
+            bot.send_message(
+                message.from_user.id, 'Некорректная дата\nВведите дату, как в примере\nПример: {date}'.format(
+                    date=datetime.today().strftime('%d.%m.%Y')
+                ))
+            return None
+        except TypeError:
+            if method == self.get_date_in:
+                error_mes = 'Дата меньше текущей даты'
+            elif method == self.get_date_out:
+                error_mes = 'Дата меньше даты заезда'
+            bot.send_message(
+                message.from_user.id, '{error}\nВведите корректную дату\nПример: {date}'.format(
+                    error=error_mes,
+                    date=datetime.today().strftime('%d.%m.%Y')
+                ))
+            return None
 
     def get_date_in(self, message: Message):
         """
@@ -175,10 +197,25 @@ class GetInformation:
         :type message: Message
         """
         if check_message(message):
-            day, month, year = self.check_date(message, self.get_date_in)
-            self.__querystring['checkIn']: str = '-'.join((year, month, day))
-            bot.send_message(message.from_user.id, 'Теперь дата выезда\nПример: 17.10.2022')
-            bot.register_next_step_handler(message, self.get_date_out)
+            date_today: date = datetime.today().date()
+            date_in = self.check_date(message=message, method=self.get_date_in, date_control=date_today)
+            if date_in is None:
+                bot.register_next_step_handler(
+                    message,
+                    self.get_date_in
+                )
+            else:
+                day, month, year = date_in
+                self.__querystring['checkIn']: str = '-'.join((year, month, day))
+                bot.send_message(
+                    message.from_user.id,
+                    'Теперь дата выезда\nПример: {date}'.format(date='{day}.{month}.{year}'.format(
+                        day=int(day) + 10,
+                        month=month,
+                        year=year
+                    ))
+                )
+                bot.register_next_step_handler(message, self.get_date_out)
 
     def get_date_out(self, message: Message):
         """
@@ -190,10 +227,18 @@ class GetInformation:
         :type message: Message
         """
         if check_message(message):
-            day, month, year = self.check_date(message, self.get_date_out)
-            self.__querystring['checkOut']: str = '-'.join((year, month, day))
-            bot.send_message(message.from_user.id, 'Загрузить фотографии?', reply_markup=keys_answer)
-            bot.register_next_step_handler(message, self.get_photo)
+            date_in: date = date.fromisoformat(self.__querystring['checkIn'])
+            date_out = self.check_date(message=message, method=self.get_date_out, date_control=date_in)
+            if date_out is None:
+                bot.register_next_step_handler(
+                    message,
+                    self.get_date_out
+                )
+            else:
+                day, month, year = date_out
+                self.__querystring['checkOut']: str = '-'.join((year, month, day))
+                bot.send_message(message.from_user.id, 'Загрузить фотографии?', reply_markup=keys_answer)
+                bot.register_next_step_handler(message, self.get_photo)
 
     def get_photo(self, message: Message):
         """
