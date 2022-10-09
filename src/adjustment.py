@@ -33,14 +33,18 @@ def translit(text: str) -> str:
         new_word.clear()
     return new_line.rstrip()
 
-def translate(city) -> str:
+def translate(text: str,  language: str = 'en') -> str:
     """
     Функция берет название города на русском языке, транслитерирует его на латиницу, если пользователь использовал
     английскую раскладку клавиатуры, а затем переводит на английский.
 
-    :param city: Название города для перевода.
+    :param text: Название города для перевода.
+    :type text: str
+    :param language: язык перевода.
+    :type language: str
     :return: Переведенное название города.
     """
-    city = translit(city)
-    translated = GoogleTranslator(source='auto', target='en').translate(city)
+    if language != 'ru':
+        text = translit(text)
+    translated = GoogleTranslator(source='auto', target=language).translate(text)
     return translated

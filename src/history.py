@@ -1,12 +1,15 @@
+import os
 import json
 from typing import Dict, Optional
+
+data_base = os.path.join('src', 'data.json')
 
 def get_data() -> Dict:
     """
     Функция открывает файл, читает данные и возвращает их.
     :return: Словарь
     """
-    with open('data.json', 'r') as file:
+    with open(data_base, 'r') as file:
         data: Dict = json.load(file)
     return data
 
@@ -17,7 +20,7 @@ def write_history(data: Dict) -> None:
     :param data: Данные для записи в файл.
     :type data: Dict
     """
-    with open('data.json', 'w') as file:
+    with open(data_base, 'w') as file:
         json.dump(data, file, indent=4)
 
 def add_search(chat_id: str, date_input: str, commands: str, search: str) -> None:

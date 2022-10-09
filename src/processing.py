@@ -1,11 +1,16 @@
 from telebot import TeleBot
-from history import get_data, write_history
-from adjustment import translit
-from keys import keys_hello, keys_menu
+import os
+import configparser
+from src.history import get_data, write_history
+from src.adjustment import translit
+from src.keys import keys_hello, keys_menu
 from telebot.types import Message
 from typing import Dict
 
-token = '5666088659:AAHPCYxAF4JgSH--gbjR65NOhixxEj1HVDw'
+settings = os.path.join('src', 'settings.ini')
+config = configparser.ConfigParser()
+config.read(settings)
+token = config['BOT']['TOKEN']
 bot = TeleBot(token)
 
 def add_id(chat_id: str) -> None:
@@ -18,6 +23,7 @@ def add_id(chat_id: str) -> None:
     data: Dict = get_data()
     if chat_id not in data.keys():
         data[chat_id]: Dict = {}
+        data[chat_id].setdefault('history', {})
     write_history(data)
 
 def remove_id(chat_id: str) -> None:
@@ -72,7 +78,6 @@ def set_name(message: Message) -> None:
     chat_id = str(message.chat.id)
     data: Dict = get_data()
     data[chat_id]['name']: str = translit(message.text.capitalize())
-    data[chat_id]['history']: Dict = {}
     send_hello(message, data[chat_id].get('name'))
     write_history(data)
 
