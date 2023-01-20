@@ -53,7 +53,23 @@
         }
     },
     "5531909614": {
-        "history": {},
-        "name": "\u041a\u0430\u043a\u0430\u0448\u043a\u0430"
+        "history": {
+            "09.10.2022 - 20:46:26": {
+                "commands": "/high_price",
+                "results": [
+                    "Fairfield Inn & Suites Moscow\nhttps://www.hotels.com/ho430455\n1000 W Pullman Rd \u041c\u043e\u0441\u043a\u0432\u0430 83843 ID \u0421\u0428\u0410\n\u0426\u0435\u043d\u0442\u0440 \u0433\u043e\u0440\u043e\u0434\u0430 - 1 \u043a\u043c\n\u0426\u0435\u043d\u0430 \u0437\u0430 \u043d\u043e\u0447\u044c \u0437\u0430 \u043d\u043e\u043c\u0435\u0440 - $144\n\u0432\u0441\u0435\u0433\u043e $156",
+                    "Best Western Plus University Inn\nhttps://www.hotels.com/ho474754\n1516 W Pullman Rd \u041c\u043e\u0441\u043a\u0432\u0430 83843 ID \u0421\u0428\u0410\n\u0426\u0435\u043d\u0442\u0440 \u0433\u043e\u0440\u043e\u0434\u0430 - 1,6 \u043a\u043c\n\u0426\u0435\u043d\u0430 \u0437\u0430 \u043d\u043e\u043c\u0435\u0440 \u0432 \u0441\u0443\u0442\u043a\u0438 - $139\n\u0432\u0441\u0435\u0433\u043e $158",
+                    "La Quinta Inn & Suites by Wyndham Moscow Pullman\nhttps://www.hotels.com/ho206843\n185 Warbonnet Dr Moscow 83843 ID \u0421\u0428\u0410\n\u0426\u0435\u043d\u0442\u0440 \u0433\u043e\u0440\u043e\u0434\u0430 - 2,9 \u043a\u043c\n\u0426\u0435\u043d\u0430 \u0437\u0430 \u043d\u043e\u0447\u044c \u0437\u0430 \u043d\u043e\u043c\u0435\u0440 - $129\n\u0412\u0441\u0435\u0433\u043e $ 129 \u0437\u0430 1 \u043d\u043e\u0447\u044c",
+                    "Monarch Motel\nhttps://www.hotels.com/ho703890496\n120 West 6th Street \u041c\u043e\u0441\u043a\u0432\u0430 83843 ID \u0421\u0428\u0410\n\u0426\u0435\u043d\u0442\u0440 \u0433\u043e\u0440\u043e\u0434\u0430 - 0,2 \u043a\u043c\n\u0426\u0435\u043d\u0430 \u0437\u0430 \u043d\u043e\u043c\u0435\u0440 \u0432 \u0441\u0443\u0442\u043a\u0438 - $120\n\u0432\u0441\u0435\u0433\u043e $130"
+                ]
+            },
+            "09.10.2022 - 20:47:45": {
+                "commands": "/high_price",
+                "results": [
+                    "Riverside Inn and Cottages\nhttps://www.hotels.com/ho1179232384\n116 East Indian Avenue \u0424\u043e\u043b\u043b\u0438-\u0411\u0438\u0447 29439 \u042e\u0436\u043d\u0430\u044f \u041a\u0430\u0440\u043e\u043b\u0438\u043d\u0430 \u0421\u0428\u0410\n\u0426\u0435\u043d\u0442\u0440 \u0433\u043e\u0440\u043e\u0434\u0430 - 0,5 \u043a\u043c\n\u0426\u0435\u043d\u0430 \u0437\u0430 \u043d\u043e\u0447\u044c \u0437\u0430 \u043d\u043e\u043c\u0435\u0440 - $216\n\u0432\u0441\u0435\u0433\u043e 2466 \u0434\u043e\u043b\u043b\u0430\u0440\u043e\u0432 \u0421\u0428\u0410 \u0437\u0430 10\u00a0\u043d\u043e\u0447\u0435\u0439"
+                ]
+            }
+        },
+        "name": "\u041f\u0440\u0438\u0432\u0435\u0442"
     }
 }
