@@ -36,6 +36,7 @@ Basic_collection/
 Skillbox/
 new_skillbox/
 src/settings.ini
+src/data.json
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
